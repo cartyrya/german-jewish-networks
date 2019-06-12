@@ -1,7 +1,8 @@
 {
   "nodes": [
     {"id": "Kracauer, Siegfried", "group": 1},
-    {"id": "Klages, Ludwig", "group": 1}
+    {"id": "Klages, Ludwig", "group": 1},
+    {"id": "Horkheimer, Max", "group": 1}
   ],
   "links": [
     {"source": "Klages, Ludwig", "target": "Kracauer, Siegfried", "value": 1},
