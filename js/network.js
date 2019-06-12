@@ -2,8 +2,6 @@ var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
-var color = d3.scaleOrdinal(d3.schemeCategory20);
-
 var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
     .force("charge", d3.forceManyBody())
@@ -15,20 +13,17 @@ d3.json("./data/dummy.json", function(error, graph) {
 
   var link = svg.append("g")
       .attr("class", "links")
+      .style("stroke", "#aaa")
     .selectAll("line")
     .data(graph.links)
-    .enter().append("line")
-      .attr("stroke-width", 5);
+    .enter().append("line");
 
   var node = svg.append("g")
       .attr("class", "nodes")
-    .selectAll("g")
+    .selectAll("circle")
     .data(graph.nodes)
-    .enter().append("g");
-
-  var circles = node.append("circle")
-      .attr("r", 5)
-      .attr("fill", "black");
+    .enter().append("circle")
+      .attr("r", 5);
 
   simulation
     .nodes(graph.nodes)
@@ -45,8 +40,11 @@ d3.json("./data/dummy.json", function(error, graph) {
         .attr("y2", function(d) { return d.target.y; });
 
     node
-        .attr("transform", function(d) {
-          return "translate(" + d.x + "," + d.y + ")";
-        })
+        .attr("r", 20)
+        .style("fill", "#d9d9d9")
+        .style("stroke", "#969696")
+        .style("stroke-width", "1px")
+        .attr("cx", function (d) { return d.x+6; })
+        .attr("cy", function(d) { return d.y-6; });
   }
 });
