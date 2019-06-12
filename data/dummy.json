@@ -1,0 +1,12 @@
+{
+  "nodes": [
+    {"id": "Kracauer, Siegfried"},
+    {"id": "Klages, Ludwig"},
+    {"id": "Kracauer, Siegfried"}
+  ],
+  "links": [
+    {"source": "Klages, Ludwig", "target": "Kracauer, Siegfried"},
+    {"source": "Kracauer, Siegfried", "target": "Klages, Ludwig"},
+    {"source": "Horkheimer, Max", "target": "Kracauer, Siegfried"}
+  ]
+}
