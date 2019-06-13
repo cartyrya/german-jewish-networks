@@ -40,10 +40,8 @@ d3.json("./data/dummy.json", function(error, graph) {
         .attr("y2", function(d) { return d.target.y; });
 
     node
-        .attr("r", 20)
-        .style("fill", "#d9d9d9")
-        .style("stroke", "#969696")
-        .style("stroke-width", "1px")
+        .attr("r", 5)
+        .style("fill", "black")
         .attr("cx", function (d) { return d.x+6; })
         .attr("cy", function(d) { return d.y-6; });
   }
