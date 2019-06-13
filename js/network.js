@@ -42,7 +42,7 @@ d3.json("./data/dummy.json", function(error, graph) {
     node
         .attr("r", 5)
         .style("fill", "black")
-        .attr("cx", function (d) { return d.x+6; })
-        .attr("cy", function(d) { return d.y-6; });
+        .attr("cx", function (d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
   }
 });
