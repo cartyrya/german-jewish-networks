@@ -25,6 +25,16 @@ d3.json("./data/dummy.json", function(error, graph) {
     .enter().append("circle")
       .attr("r", 5);
 
+  var labels = node.append("text")
+    .text (function(d) {
+        return d.id;
+    })
+    .attr("x", 6)
+    .attr("y", 3);
+
+  node.append("title")
+    .text(function(d) { return d.id; });
+
   simulation
     .nodes(graph.nodes)
     .on("tick", ticked);
