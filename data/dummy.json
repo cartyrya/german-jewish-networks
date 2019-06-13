@@ -8,7 +8,7 @@
   "links": [
     {"source": "Klages, Ludwig", "target": "Kracauer, Siegfried", "value": 1},
     {"source": "Kracauer, Siegfried", "target": "Klages, Ludwig", "value": 1},
-    {"source": "Horkheimer, Max", "target": "Kracauer, Siegfried", "value": 1},
-    {"source": "Wahl, Fritz and Annemarie", "target": "Kracauer, Siegfried", "value": 1}
+    {"source": "Horkheimer, Max", "target": "Kracauer, Siegfried", "value": 41},
+    {"source": "Wahl, Fritz and Annemarie", "target": "Kracauer, Siegfried", "value": 39}
   ]
 }
