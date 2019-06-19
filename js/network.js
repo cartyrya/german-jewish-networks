@@ -26,19 +26,20 @@ d3.json("./data/dummy.json", function(error, graph) {
     .force("center", d3.forceCenter(width / 2, height / 2))
     .on("tick", ticked);
 
+  var g = svg.append("g")
+    .attr("class", "everything");
+
   simulation.force("link")
     .links(graph.links);
 
-  const R = 6;
-
-  let link = svg.selectAll("line")
+  let link = g.selectAll("line")
     .data(graph.links)
     .enter().append("line");
 
   link
     .attr("class", "link")
     .style("stroke", "black")
-    .style("stroke-width", "2px")
+    .style("stroke-width", "1px")
     .style("pointer-events", "all")
     .on("mouseover.tooltip", function(d) {
       tooltip.transition()
@@ -58,13 +59,13 @@ d3.json("./data/dummy.json", function(error, graph) {
         .style("top", (d3.event.pageY + 10) + "px");
     });
 
-  let node = svg.selectAll(".node")
+  let node = g.selectAll(".node")
     .data(graph.nodes)
     .enter().append("g")
     .attr("class", "node");
 
   node.append("circle")
-    .attr("r", R)
+    .attr("r", 4)
     .attr("fill", "black")
     .style("stroke", "black")
     .style("stroke-width", "1px")
@@ -91,6 +92,15 @@ d3.json("./data/dummy.json", function(error, graph) {
     .attr("x", 0)
     .attr("dy", ".35em")
     .text(d => d.name);
+
+  var zoom_handler = d3.zoom()
+    .on("zoom", zoom_actions);
+
+  zoom_handler(svg);
+
+  function zoom_actions() {
+    g.attr("transform", d3.event.transform)
+  }
 
   function ticked() {
     link
