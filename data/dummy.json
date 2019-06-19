@@ -3,12 +3,21 @@
     {"id": "Kracauer, Siegfried", "group": 1},
     {"id": "Klages, Ludwig", "group": 1},
     {"id": "Horkheimer, Max", "group": 1},
-    {"id": "Wahl, Fritz and Annemarie", "group": 1}
+    {"id": "Wahl, Fritz and Annemarie", "group": 1},
+    {"id": "Stern, Seymour", "group": 1},
+    {"id": "Kayser, Rudolf", "group": 1},
+    {"id": "Kracauer, Siegfried and Elisabeth", "group": 1},
+    {"id": "Gubler, Friedrich Traugott and Ella", "group": 1},
+    {"id": "Benjamin, Walter", "group": 1}
   ],
   "links": [
     {"source": "Klages, Ludwig", "target": "Kracauer, Siegfried", "value": 1},
     {"source": "Kracauer, Siegfried", "target": "Klages, Ludwig", "value": 1},
     {"source": "Horkheimer, Max", "target": "Kracauer, Siegfried", "value": 41},
-    {"source": "Wahl, Fritz and Annemarie", "target": "Kracauer, Siegfried", "value": 39}
+    {"source": "Wahl, Fritz and Annemarie", "target": "Kracauer, Siegfried", "value": 39},
+    {"source": "Kracauer, Siegfried", "target": "Stern, Seymour", "value": 4},
+    {"source": "Kracauer, Siegfried", "target": "Kayser, Rudolf", "value": 7},
+    {"source": "Kracauer, Siegfried and Elisabeth", "target": "Gubler, Friedrich Traugott and Ella", "value": 47},
+    {"source": "Klages, Ludwig", "target": "Benjamin, Walter", "value": 1}
   ]
 }

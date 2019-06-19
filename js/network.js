@@ -1,58 +1,106 @@
-var svg = d3.select("svg"),
-    width = +svg.attr("width"),
-    height = +svg.attr("height");
-
-var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function(d) { return d.id; }))
-    .force("charge", d3.forceManyBody())
-    .force("center", d3.forceCenter(width / 2, height / 2));
+var tooltip = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("position", "absolute")
+    .style("background", "white")
+    .style("max-width", "200px")
+    .style("height", "auto")
+    .style("padding", "1px")
+    .style("border-style", "solid")
+    .style("border-radius", "4px")
+    .style("border-width", "1px")
+    .style("pointer-events", "none")
+    .style("opacity", 0);
 
 d3.json("./data/dummy.json", function(error, graph) {
 
   if (error) throw error;
 
-  var link = svg.append("g")
-      .attr("class", "links")
-      .style("stroke", "#aaa")
-    .selectAll("line")
-    .data(graph.links)
-    .enter().append("line");
+  const svg = d3.select("svg"),
+  width = +svg.attr("width"),
+  height = +svg.attr("height");
 
-  var node = svg.append("g")
-      .attr("class", "nodes")
-    .selectAll("circle")
-    .data(graph.nodes)
-    .enter().append("circle")
-      .attr("r", 5);
-
-  var labels = node.append("text")
-    .text (function(d) {
-        return d.id;
-    })
-    .attr("x", 6)
-    .attr("y", 3);
-
-  node.append("title")
-    .text(function(d) { return d.id; });
-
-  simulation
+  const simulation = d3.forceSimulation()
     .nodes(graph.nodes)
+    .force("link", d3.forceLink().id(d => d.id))
+    .force("charge", d3.forceManyBody())
+    .force("center", d3.forceCenter(width / 2, height / 2))
     .on("tick", ticked);
 
   simulation.force("link")
     .links(graph.links);
 
+  const R = 6;
+
+  let link = svg.selectAll("line")
+    .data(graph.links)
+    .enter().append("line");
+
+  link
+    .attr("class", "link")
+    .style("stroke", "black")
+    .style("stroke-width", "2px")
+    .style("pointer-events", "all")
+    .on("mouseover.tooltip", function(d) {
+      tooltip.transition()
+        .duration(300)
+        .style("opacity", .8);
+      tooltip.html("From: " + d.source.id + "<br>To: " + d.target.id + "<br>No. of letters: " + d.value)
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY + 10) + "px");
+    })
+    .on("mouseout.tooltip", function() {
+      tooltip.transition()
+        .duration(100)
+        .style("opacity", 0);
+    })
+    .on("mousemove", function() {
+      tooltip.style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY + 10) + "px");
+    });
+
+  let node = svg.selectAll(".node")
+    .data(graph.nodes)
+    .enter().append("g")
+    .attr("class", "node");
+
+  node.append("circle")
+    .attr("r", R)
+    .attr("fill", "black")
+    .style("stroke", "black")
+    .style("stroke-width", "1px")
+    .style("pointer-events", "all")
+    .on("mouseover.tooltip", function(d) {
+      tooltip.transition()
+        .duration(300)
+        .style("opacity", .8);
+      tooltip.html("Name: " + d.id + "<br>Group: " + d.group)
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY + 10) + "px");
+    })
+    .on("mouseout.tooltip", function() {
+      tooltip.transition()
+        .duration(100)
+        .style("opacity", 0);
+    })
+    .on("mousemove", function() {
+      tooltip.style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY + 10) + "px");
+    });
+
+  node.append("text")
+    .attr("x", 0)
+    .attr("dy", ".35em")
+    .text(d => d.name);
+
   function ticked() {
     link
-        .attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
 
     node
-        .attr("r", 5)
-        .style("fill", "black")
-        .attr("cx", function (d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
+        .attr("transform", d => `translate(${d.x},${d.y})`);
   }
+
 });
