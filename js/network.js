@@ -37,7 +37,7 @@ d3.json("./data/dummy.json", function(error, graph) {
       .attr("id", String)
       .attr("viewBox", "0 -5 10 10")
       .attr("refX", 12)
-      .attr("refY", 0)
+      .attr("refY", -0.5)
       .attr("markerWidth", 6)
       .attr("markerHeight", 6)
       .attr("orient", "auto")
