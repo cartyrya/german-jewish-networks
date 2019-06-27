@@ -4,11 +4,11 @@
     {"id": "Klages, Ludwig", "group": 1},
     {"id": "Horkheimer, Max", "group": 1},
     {"id": "Wahl, Fritz and Annemarie", "group": 1},
-    {"id": "Stern, Seymour", "group": 1},
-    {"id": "Kayser, Rudolf", "group": 1},
-    {"id": "Kracauer, Siegfried and Elisabeth", "group": 1},
-    {"id": "Gubler, Friedrich Traugott and Ella", "group": 1},
-    {"id": "Benjamin, Walter", "group": 1}
+    {"id": "Stern, Seymour", "group": 2},
+    {"id": "Kayser, Rudolf", "group": 2},
+    {"id": "Kracauer, Siegfried and Elisabeth", "group": 2},
+    {"id": "Gubler, Friedrich Traugott and Ella", "group": 3},
+    {"id": "Benjamin, Walter", "group": 3}
   ],
   "links": [
     {"source": "Klages, Ludwig", "target": "Kracauer, Siegfried", "value": 1},
