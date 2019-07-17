@@ -23,7 +23,7 @@ d3.json("./data/dummy.json", function(error, graph) {
 
   const simulation = d3.forceSimulation()
     .nodes(graph.nodes)
-    .force("link", d3.forceLink().id(d => d.id))
+    .force("link", d3.forceLink().id(d => d.id).distance([150]))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2))
     .on("tick", ticked);
