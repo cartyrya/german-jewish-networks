@@ -2,7 +2,7 @@ var tooltip = d3.select("body").append("div")
     .attr("class", "tooltip")
     .style("position", "absolute")
     .style("background", "white")
-    .style("max-width", "300px")
+    .style("max-width", "350px")
     .style("height", "auto")
     .style("padding", "1px")
     .style("border-style", "solid")
@@ -53,20 +53,24 @@ d3.json("./data/dummy.json", function(error, graph) {
       .attr("class", "link")
       .attr("marker-end", "url(#end)")
       .style("fill", "none")
-      .style("stroke", "black")
-      .style("stroke-width", "1.5px")
+      .style("stroke", function(d) { return color(d.archive); })
+      .style("stroke-width", function(d) { return Math.sqrt(d.value); })
       .style("pointer-events", "stroke")
       .on("mouseover.tooltip", function(d) {
         tooltip.transition()
           .duration(300)
           .style("opacity", .8);
-        tooltip.html("From: " + d.source.id + "<br>To: " + d.target.id + "<br>No. of letters: " + d.value)
+        tooltip.html("From: " + d.source.id +
+                    "<br>To: " + d.target.id +
+                    "<br>Date: " + d.date +
+                    "<br>No. of letters: " + d.value +
+                    "<br>Archive: " + d.archive)
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY + 10) + "px");
       })
       .on("mouseout.tooltip", function() {
         tooltip.transition()
-          .duration(100)
+          .duration(1000)
           .style("opacity", 0);
       })
       .on("mousemove", function() {
@@ -81,7 +85,7 @@ d3.json("./data/dummy.json", function(error, graph) {
 
   node.append("circle")
     .attr("r", 4)
-    .style("fill", function(d) { return color(d.group); })
+    .style("fill", "gray")
     .style("stroke", "black")
     .style("stroke-width", "1px")
     .style("pointer-events", "all")
