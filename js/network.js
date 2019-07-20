@@ -1,15 +1,15 @@
-// var tooltip = d3.select("body").append("div")
-//     .attr("class", "tooltip")
-//     .style("position", "absolute")
-//     .style("background", "white")
-//     .style("max-width", "350px")
-//     .style("height", "auto")
-//     .style("padding", "1px")
-//     .style("border-style", "solid")
-//     .style("border-radius", "4px")
-//     .style("border-width", "1px")
-//     .style("pointer-events", "none")
-//     .style("opacity", 0);
+var tooltip = d3.select("body").append("div")
+  .attr("class", "tooltip")
+  .style("position", "absolute")
+  .style("background", "white")
+  .style("max-width", "350px")
+  .style("height", "auto")
+  .style("padding", "1px")
+  .style("border-style", "solid")
+  .style("border-radius", "4px")
+  .style("border-width", "1px")
+  .style("pointer-events", "none")
+  .style("opacity", 0);
 
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 
@@ -52,9 +52,6 @@ d3.json("./data/dummy.json", function(error, graph) {
     .append("svg:path")
       .attr("d", "M0,-5L10,0L0,5");
 
-  // simulation.force("link")
-  //   .links(graph.links);
-
   var link = g.append("g")
       .attr("class", "links")
       .selectAll("path")
@@ -63,29 +60,29 @@ d3.json("./data/dummy.json", function(error, graph) {
       .style("fill", "none")
       .style("stroke", function(d) { return color(d.archive); })
       .style("stroke-width", function(d) { return Math.sqrt(d.value); })
-      .attr("marker-end", "url(#end)");
-      // .style("pointer-events", "stroke")
-      // .on("mouseover.tooltip", function(d) {
-      //   tooltip.transition()
-      //     .duration(300)
-      //     .style("opacity", .8);
-      //   tooltip.html("From: " + d.source.id +
-      //               "<br>To: " + d.target.id +
-      //               "<br>Date: " + d.date +
-      //               "<br>No. of letters: " + d.value +
-      //               "<br>Archive: " + d.archive)
-      //     .style("left", (d3.event.pageX) + "px")
-      //     .style("top", (d3.event.pageY + 10) + "px");
-      // })
-      // .on("mouseout.tooltip", function() {
-      //   tooltip.transition()
-      //     .duration(1000)
-      //     .style("opacity", 0);
-      // })
-      // .on("mousemove", function() {
-      //   tooltip.style("left", (d3.event.pageX) + "px")
-      //     .style("top", (d3.event.pageY + 10) + "px");
-      // });
+      .attr("marker-end", "url(#end)")
+      .style("pointer-events", "stroke")
+      .on("mouseover.tooltip", function(d) {
+        tooltip.transition()
+          .duration(300)
+          .style("opacity", .8);
+        tooltip.html("From: " + d.source.id +
+                    "<br>To: " + d.target.id +
+                    "<br>Date: " + d.date +
+                    "<br>No. of letters: " + d.value +
+                    "<br>Archive: " + d.archive)
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY + 10) + "px");
+      })
+      .on("mouseout.tooltip", function() {
+        tooltip.transition()
+          .duration(1000)
+          .style("opacity", 0);
+      })
+      .on("mousemove", function() {
+        tooltip.style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY + 10) + "px");
+      });
 
   var node = g.append("g")
     .attr("class", "nodes")
@@ -96,36 +93,25 @@ d3.json("./data/dummy.json", function(error, graph) {
     .attr("r", 4)
     .style("fill", "gray")
     .style("stroke", "black")
-    .style("stroke-width", "1px");
-
-  // node.append("circle")
-  //   .attr("r", 4)
-  //   .style("fill", "gray")
-  //   .style("stroke", "black")
-  //   .style("stroke-width", "1px")
-  //   .style("pointer-events", "all")
-    // .on("mouseover.tooltip", function(d) {
-    //   tooltip.transition()
-    //     .duration(300)
-    //     .style("opacity", .8);
-    //   tooltip.html("Name: " + d.id + "<br>Group: " + d.group)
-    //     .style("left", (d3.event.pageX) + "px")
-    //     .style("top", (d3.event.pageY + 10) + "px");
-    // })
-    // .on("mouseout.tooltip", function() {
-    //   tooltip.transition()
-    //     .duration(100)
-    //     .style("opacity", 0);
-    // })
-    // .on("mousemove", function() {
-    //   tooltip.style("left", (d3.event.pageX) + "px")
-    //     .style("top", (d3.event.pageY + 10) + "px");
-    // });
-
-  // node.append("text")
-  //   .attr("x", 0)
-  //   .attr("dy", ".35em")
-  //   .text(d => d.name);
+    .style("stroke-width", "1px")
+    .style("pointer-events", "all")
+    .on("mouseover.tooltip", function(d) {
+      tooltip.transition()
+        .duration(300)
+        .style("opacity", .8);
+      tooltip.html("Name: " + d.id + "<br>Group: " + d.group)
+        .style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY + 10) + "px");
+    })
+    .on("mouseout.tooltip", function() {
+      tooltip.transition()
+        .duration(100)
+        .style("opacity", 0);
+    })
+    .on("mousemove", function() {
+      tooltip.style("left", (d3.event.pageX) + "px")
+        .style("top", (d3.event.pageY + 10) + "px");
+    });
 
   var drag_handler = d3.drag()
     .on("start", drag_start)
@@ -134,24 +120,10 @@ d3.json("./data/dummy.json", function(error, graph) {
 
   drag_handler(node);
 
-  var text = g.append("g").attr("class", "labels").selectAll("g")
-    .data(graph.nodes)
-    .enter().append("g");
-    // .append("text")
-    // .attr("x", 14)
-    // .attr("y", ".31em")
-    // .style("font-family", "sans-serif")
-    // .style("font-size", "0.7em");
-
   node.on("click", function(d) {
     d3.event.stopImmediatePropagation();
     self.onNodeClicked.emit(d.id);
   });
-
-  node.append("title")
-    .attr("x", 14)
-    .attr("y", ".3em")
-    .text(function (d) { return "Name: " + d.id ; });
 
   var zoom_handler = d3.zoom()
     .on("zoom", zoom_actions);
@@ -185,12 +157,6 @@ d3.json("./data/dummy.json", function(error, graph) {
       .attr("cx", function(d) { return d.x; })
       .attr("cy", function(d) { return d.y; });
 
-    // link
-    //   .attr("x1", function(d) { return d.source.x; })
-    //   .attr("y1", function(d) { return d.source.y; })
-    //   .attr("x2", function(d) { return d.target.x; })
-    //   .attr("y2", function(d) { return d.target.y; });
-
     link.attr("d", function(d) {
       var dx = d.target.x - d.source.x,
           dy = d.target.y - d.source.y,
@@ -202,11 +168,6 @@ d3.json("./data/dummy.json", function(error, graph) {
           d.target.x + "," +
           d.target.y;
     });
-  //
-  //   node
-  //       .attr("transform", function(d) {
-  //         return "translate(" + d.x + "," + d.y + ")"; });
-  // }
 
 }
 
