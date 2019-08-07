@@ -113,6 +113,16 @@ d3.json("./data/dummy.json", function(error, graph) {
         .style("top", (d3.event.pageY + 10) + "px");
     });
 
+  var text = g.append("g").attr("class", "labels").selectAll("g")
+    .data(graph.nodes)
+    .enter().append("g")
+    .append("text")
+    .attr("x", 14)
+    .attr("y", ".31em")
+    .style("font-family", "sans-serif")
+    .style("font-size", "0.7em")
+    .text(function(d) { return d.id; });
+
   var drag_handler = d3.drag()
     .on("start", drag_start)
     .on("drag", drag_drag)
@@ -168,6 +178,9 @@ d3.json("./data/dummy.json", function(error, graph) {
           d.target.x + "," +
           d.target.y;
     });
+
+    text
+      .attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
 
 }
 
