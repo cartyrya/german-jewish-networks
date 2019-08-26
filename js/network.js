@@ -1,6 +1,6 @@
 /* 
-Basic compnents: "svg" (box where viz can happen), "g" (viz box), and "node" and "link" (create nodes and links) 
-d3.json is main loop
+>> Basic compnents: "svg" (box where viz can happen), "g" (viz box), and "node" and "link" (create nodes and links) 
+>> d3.json is main loop
 
 */ 
 
@@ -17,6 +17,7 @@ var tooltip = d3.select("body").append("div")
   .style("pointer-events", "none")
   .style("opacity", 0);
 
+// color variable used in later functions, returns colors assigned to unique numbers (generated from text)
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 
 /* creates visualziation box, 960 by 500 px, where visuzliation can happen */ 
@@ -37,7 +38,7 @@ d3.json("./data/dummy.json", function(error, graph) {
 
   if (error) throw error; // prints error if there's a problem w/ data file
   
-  var simulation = d3.forceSimulation()
+  var simulation = d3.forceSimulation() // simulation
     .nodes(graph.nodes);
 
   simulation
@@ -52,7 +53,7 @@ d3.json("./data/dummy.json", function(error, graph) {
  /* g variable is box inside visualziation space where click events, all the lines, arrows, nodes, etc. comes in this box
  this is the visualization-box itself */
   var g = svg.append("g")
-    .attr("class", "everything");
+    .attr("class", "everything"); // all click events, all functions, etc can happen in this element ("everything" defined by j3 library)
 
   g.append("defs").selectAll("marker")
       .data(["end"])
@@ -67,18 +68,21 @@ d3.json("./data/dummy.json", function(error, graph) {
     .append("svg:path")
       .attr("d", "M0,-5L10,0L0,5");
 
-  /* link variable, appended to "g" variable. This creates the edges in the viz. SVG>G>LINK */
+  /* link variable, appended to "g" variable. This creates the edges in the viz. "svg">"g">"link" */
   var link = g.append("g")
-      .attr("class", "links")
-      .selectAll("path")
-      .data(graph.links)
-      .enter().append("path")
-      .style("fill", "none")
-      .style("stroke", function(d) { return color(d.archive); })
-      .style("stroke-width", function(d) { return Math.sqrt(d.value); })
+      .attr("class", "links") // define class as links in d3 library
+      .selectAll("path") // direction, shape of link between nodes, also called "path"
+      .data(graph.links) // call data tell it which data we're giving to variable
+      .enter().append("path") // adding data to the various paths
+  /* these are the various style elements to determine what links look like */ 
+      .style("fill", "none") // fills between the borders aka "strokes"
+      .style("stroke", function(d) { // "stroke" is the border to the link-line. then create a function to determine color
+          return color(d.archive); }) // returns a color based on the datapoint for "archive" category ... d.archive.
+      .style("stroke-width", function(d) { // defining the width of the stroke determined by function of ...
+          return Math.sqrt(d.value); }) // ... square root of the # of letters (square root like a logarithm makes better for vis)
       .attr("marker-end", "url(#end)")
-      .style("pointer-events", "stroke")
-      .on("mouseover.tooltip", function(d) {
+      .style("pointer-events", "stroke") // defining where pointer events can happen >> here, only on the stroke
+      .on("mouseover.tooltip", function(d) { // on a mouse-over event, this is what it will print out
         tooltip.transition()
           .duration(300)
           .style("opacity", .8);
@@ -102,16 +106,16 @@ d3.json("./data/dummy.json", function(error, graph) {
 
   /* variable for nodes, also appended to "g," like "link." SVG > G > node */
     var node = g.append("g")
-    .attr("class", "nodes")
-    .selectAll("circle")
-    .data(graph.nodes)
+    .attr("class", "nodes") // create a class of nodes
+    .selectAll("circle") // created nodes as circles ("paths" before")
+    .data(graph.nodes) // calling data in graph.nodes (not graph.links)
     .enter()
-    .append("circle")
-    .attr("r", 4)
-    .style("fill", "gray")
-    .style("stroke", "black")
-    .style("stroke-width", "1px")
-    .style("pointer-events", "all")
+    .append("circle") // appending circles to each "node" data point
+    .attr("r", 4) // radius as 4px
+    .style("fill", "gray") // fill color, here defined as gray, but could be something else (as above)
+    .style("stroke", "black") // border color, also static, but could be smth else (as above)
+    .style("stroke-width", "1px") // border width, also static
+    .style("pointer-events", "all") // pointer events ("all" means in "fill" and "stroke")
     .on("mouseover.tooltip", function(d) {
       tooltip.transition()
         .duration(300)
@@ -178,27 +182,28 @@ d3.json("./data/dummy.json", function(error, graph) {
     g.attr("transform", d3.event.transform)
   }
 
+ /* when pushing data into links / nodes >> ticked allows nodes, links, and text to move along with drag */
   function ticked() {
 
-    node
+    node // defines position for nodes, as D3 creates data for each node, cx / cy
       .attr("cx", function(d) { return d.x; })
       .attr("cy", function(d) { return d.y; });
 
-    link.attr("d", function(d) {
-      var dx = d.target.x - d.source.x,
-          dy = d.target.y - d.source.y,
-          dr = Math.sqrt(dx * dx + dy * dy);
+    link.attr("d", function(d) { 
+      var dx = d.target.x - d.source.x, // defines positions btw x for target and source
+          dy = d.target.y - d.source.y, // deinfes positions btw y for target and source
+          dr = Math.sqrt(dx * dx + dy * dy); // defines Euclidean distance between target and source 
       return "M" +
           d.source.x + "," +
           d.source.y + "A" +
           dr + "," + dr + " 0 0,1 " +
           d.target.x + "," +
-          d.target.y;
-    });
+          d.target.y; });
 
+    // defines position of labels relative to the position of the nodes (d.x, d.y)
     text
       .attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
 
-}
+  }
 
 });
