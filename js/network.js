@@ -1,3 +1,9 @@
+/* 
+Basic compnents: "svg" (box where viz can happen), "g" (viz box), and "node" and "link" (create nodes and links) 
+d3.json is main loop
+
+*/ 
+
 var tooltip = d3.select("body").append("div")
   .attr("class", "tooltip")
   .style("position", "absolute")
@@ -13,17 +19,24 @@ var tooltip = d3.select("body").append("div")
 
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 
+/* creates visualziation box, 960 by 500 px, where visuzliation can happen */ 
+var svg = d3.select("body").append("svg")
+  .attr("width", 960)
+  .attr("height", 500);
+
+var width = 960,
+    height = 500;
+
+/* Start of the javascript, pulls data from root/data/dummy.json
+For every data point, runs through the entire js loop.
+"error" is boolean for error with dummy.json (if error, will print error in console.
+"graph" is now the variable for the data in dummy.json
+d3.json-loop runs data through all commands for all nodes and all links
+*/ 
 d3.json("./data/dummy.json", function(error, graph) {
 
-  if (error) throw error;
-
-  var svg = d3.select("body").append("svg")
-    .attr("width", 960)
-    .attr("height", 500);
-
-  var width = 960,
-      height = 500;
-
+  if (error) throw error; // prints error if there's a problem w/ data file
+  
   var simulation = d3.forceSimulation()
     .nodes(graph.nodes);
 
@@ -36,6 +49,8 @@ d3.json("./data/dummy.json", function(error, graph) {
   simulation
     .on("tick", ticked);
 
+ /* g variable is box inside visualziation space where click events, all the lines, arrows, nodes, etc. comes in this box
+ this is the visualization-box itself */
   var g = svg.append("g")
     .attr("class", "everything");
 
@@ -52,6 +67,7 @@ d3.json("./data/dummy.json", function(error, graph) {
     .append("svg:path")
       .attr("d", "M0,-5L10,0L0,5");
 
+  /* link variable, appended to "g" variable. This creates the edges in the viz. SVG>G>LINK */
   var link = g.append("g")
       .attr("class", "links")
       .selectAll("path")
@@ -84,7 +100,8 @@ d3.json("./data/dummy.json", function(error, graph) {
           .style("top", (d3.event.pageY + 10) + "px");
       });
 
-  var node = g.append("g")
+  /* variable for nodes, also appended to "g," like "link." SVG > G > node */
+    var node = g.append("g")
     .attr("class", "nodes")
     .selectAll("circle")
     .data(graph.nodes)
