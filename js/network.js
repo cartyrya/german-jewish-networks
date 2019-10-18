@@ -1,8 +1,8 @@
-/* 
->> Basic compnents: "svg" (box where viz can happen), "g" (viz box), and "node" and "link" (create nodes and links) 
+/*
+>> Basic compnents: "svg" (box where viz can happen), "g" (viz box), and "node" and "link" (create nodes and links)
 >> d3.json is main loop
 
-*/ 
+*/
 
 var tooltip = d3.select("body").append("div")
   .attr("class", "tooltip")
@@ -20,7 +20,7 @@ var tooltip = d3.select("body").append("div")
 // color variable used in later functions, returns colors assigned to unique numbers (generated from text)
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 
-/* creates visualziation box, 960 by 500 px, where visuzliation can happen */ 
+/* creates visualziation box, 960 by 500 px, where visuzliation can happen */
 var svg = d3.select("body").append("svg")
   .attr("width", 960)
   .attr("height", 500);
@@ -33,11 +33,11 @@ For every data point, runs through the entire js loop.
 "error" is boolean for error with dummy.json (if error, will print error in console.
 "graph" is now the variable for the data in dummy.json
 d3.json-loop runs data through all commands for all nodes and all links
-*/ 
-d3.json("./data/dummy.json", function(error, graph) {
+*/
+d3.json("./data/frankfurter-zeitung.json", function(error, graph) {
 
   if (error) throw error; // prints error if there's a problem w/ data file
-  
+
   var simulation = d3.forceSimulation() // simulation
     .nodes(graph.nodes);
 
@@ -74,7 +74,7 @@ d3.json("./data/dummy.json", function(error, graph) {
       .selectAll("path") // direction, shape of link between nodes, also called "path"
       .data(graph.links) // call data tell it which data we're giving to variable
       .enter().append("path") // adding data to the various paths
-  /* these are the various style elements to determine what links look like */ 
+  /* these are the various style elements to determine what links look like */
       .style("fill", "none") // fills between the borders aka "strokes"
       .style("stroke", function(d) { // "stroke" is the border to the link-line. then create a function to determine color
           return color(d.archive); }) // returns a color based on the datapoint for "archive" category ... d.archive.
@@ -189,10 +189,10 @@ d3.json("./data/dummy.json", function(error, graph) {
       .attr("cx", function(d) { return d.x; })
       .attr("cy", function(d) { return d.y; });
 
-    link.attr("d", function(d) { 
+    link.attr("d", function(d) {
       var dx = d.target.x - d.source.x, // defines positions btw x for target and source
           dy = d.target.y - d.source.y, // deinfes positions btw y for target and source
-          dr = Math.sqrt(dx * dx + dy * dy); // defines Euclidean distance between target and source 
+          dr = Math.sqrt(dx * dx + dy * dy); // defines Euclidean distance between target and source
       return "M" +
           d.source.x + "," +
           d.source.y + "A" +
